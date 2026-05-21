@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="container stack content">
+    {{ partial "page-header.html" . }}
+    {{ .Content }}
+
+    <section class="grid" aria-label="Taxonomy terms">
+        {{ range .Data.Terms.Alphabetical }}
+        <article class="card stack">
+            <h2><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a></h2>
+            <p>{{ .Count }} page{{ if ne .Count 1 }}s{{ end }}</p>
+        </article>
+        {{ end }}
+    </section>
+</div>
+{{ end }}

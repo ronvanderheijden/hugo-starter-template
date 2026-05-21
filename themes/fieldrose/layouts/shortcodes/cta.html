@@ -1,0 +1,25 @@
+{{/*
+  Call-to-Action Button Shortcode
+
+  Usage in content:
+    {{< cta url="/contact/" text="Contact Us" >}}
+    {{< cta url="/services/" text="Our Services" style="outline" >}}
+    {{< cta url="https://example.com" text="External Link" external="true" >}}
+
+  Parameters:
+    - url: Link destination (required)
+    - text: Button text (required)
+    - style: "primary" (default), "secondary", "outline"
+    - external: "true" to open in new tab
+*/}}
+
+{{ $url := .Get "url" }}
+{{ $text := .Get "text" }}
+{{ $style := .Get "style" | default "primary" }}
+{{ $external := .Get "external" }}
+
+<a href="{{ $url }}"
+   class="cta-button cta-{{ $style }}"
+   {{ if eq $external "true" }}target="_blank" rel="noopener noreferrer"{{ end }}>
+    {{ $text }}
+</a>

@@ -1,0 +1,10 @@
+{{/* Renders a grid of cards for the given collection of pages. */}}
+<div class="grid">
+    {{ range . }}
+    <article class="card stack">
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        {{ partial "terms.html" . }}
+    </article>
+    {{ end }}
+</div>

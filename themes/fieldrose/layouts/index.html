@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="container stack content">
+    {{ partial "page-header.html" . }}
+    {{ .Content }}
+
+    <section class="grid" aria-label="Example sections">
+        {{ range first 3 (where .Site.Sections "Section" "in" (slice "posts" "services" "info")) }}
+        <article class="card">
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        </article>
+        {{ end }}
+    </section>
+</div>
+{{ end }}

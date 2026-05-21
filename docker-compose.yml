@@ -1,0 +1,11 @@
+services:
+  hugo:
+    build:
+      context: .
+      args:
+        # The Hugo and Alpine versions are pinned in the Dockerfile.
+        - APP_DIR=/app
+    volumes:
+      - ./:/app
+    ports:
+      - "127.0.0.1:1313:1313"

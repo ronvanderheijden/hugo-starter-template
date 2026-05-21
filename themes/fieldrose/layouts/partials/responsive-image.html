@@ -1,0 +1,55 @@
+{{/*
+  Responsive image building block, shared by the markdown image render
+  hook and the figure shortcode.
+
+  Expects a dict:
+    page  — the page the image belongs to, for resource lookup
+    src   — image path (page resource or asset) or external URL
+    alt   — alternative text
+    class — optional class for the <img>
+    sizes — optional sizes attribute, defaults to the content column
+
+  Local raster images are offered in several widths as WebP with the
+  original format as fallback, and load lazily. Anything that cannot be
+  processed (external URLs, SVG, GIF, unknown paths) is passed through
+  as a plain <img> so the build never breaks.
+*/}}
+{{ $src := .src }}
+{{ $alt := .alt | default "" }}
+{{ $class := .class }}
+{{ $sizes := .sizes | default "(min-width: 58rem) 55rem, 100vw" }}
+
+{{ $img := "" }}
+{{ $external := or (hasPrefix $src "http://") (hasPrefix $src "https://") (hasPrefix $src "//") (hasPrefix $src "data:") }}
+{{ if not $external }}
+    {{ with .page }}{{ $img = .Resources.Get $src }}{{ end }}
+    {{ if not $img }}{{ $img = resources.Get (strings.TrimPrefix "/" $src) }}{{ end }}
+{{ end }}
+
+{{ $processable := and $img (ne $img.MediaType.SubType "svg") (ne $img.MediaType.SubType "gif") }}
+
+{{ if $processable }}
+    {{ $widths := slice }}
+    {{ range $w := slice 480 800 1200 1600 }}
+        {{ if lt $w $img.Width }}{{ $widths = $widths | append $w }}{{ end }}
+    {{ end }}
+    {{ if $widths }}
+        {{ $webp := slice }}
+        {{ $fallback := slice }}
+        {{ range $w := $widths }}
+            {{ $webp = $webp | append (printf "%s %dw" (($img.Resize (printf "%dx webp" $w)).RelPermalink) $w) }}
+            {{ $fallback = $fallback | append (printf "%s %dw" (($img.Resize (printf "%dx" $w)).RelPermalink) $w) }}
+        {{ end }}
+        {{ $largest := $img.Resize (printf "%dx" (index $widths (sub (len $widths) 1))) }}
+<picture>
+    <source type="image/webp" srcset="{{ delimit $webp ", " }}" sizes="{{ $sizes }}">
+    <img src="{{ $largest.RelPermalink }}" srcset="{{ delimit $fallback ", " }}" sizes="{{ $sizes }}" width="{{ $largest.Width }}" height="{{ $largest.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}>
+</picture>
+    {{ else }}
+<img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}>
+    {{ end }}
+{{ else if $img }}
+<img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}>
+{{ else }}
+<img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}>
+{{ end }}

@@ -1,0 +1,28 @@
+{{/*
+  Figure Shortcode — an image with an optional caption and size choice.
+  Renders through the same responsive-image building block as plain
+  markdown images.
+
+  Usage in content:
+    {{< figure src="photo.jpg" alt="What the photo shows" caption="A short caption." >}}
+    {{< figure src="photo.jpg" alt="What the photo shows" size="small" >}}
+
+  Parameters:
+    - src: image path — a page resource or asset (required)
+    - alt: alternative text for the image
+    - caption: optional caption shown below the image
+    - size: "full" (default), "medium", or "small"
+*/}}
+
+{{ $src := .Get "src" }}
+{{ if not $src }}
+{{ errorf "The figure shortcode requires a src parameter: %s" .Position }}
+{{ end }}
+{{ $size := .Get "size" | default "full" }}
+
+<figure class="figure figure--{{ $size }}">
+    {{ partial "responsive-image.html" (dict "page" .Page "src" $src "alt" (.Get "alt")) }}
+    {{ with .Get "caption" }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>

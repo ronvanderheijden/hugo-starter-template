@@ -1,0 +1,45 @@
+baseURL: 'https://example.org'
+languageCode: 'en-US'
+enableRobotsTXT: true
+title: Example Organisation
+theme: fieldrose
+defaultContentLanguage: en
+
+taxonomies:
+  tag: tags
+
+pagination:
+  pagerSize: 10
+
+menus:
+  main:
+    - name: Home
+      pageRef: /
+      weight: 10
+    - name: About
+      pageRef: /about
+      weight: 20
+    - name: Posts
+      pageRef: /posts
+      weight: 30
+    - name: Services
+      pageRef: /services
+      weight: 40
+    - name: Info
+      pageRef: /info
+      weight: 50
+    - name: Contact
+      pageRef: /contact
+      weight: 60
+
+params:
+  meta:
+    author: "Example Organisation"
+    description: "News, services, and practical information from Example Organisation."
+    keywords: "example organisation, services, news, community"
+    # Site-wide fallback for social link previews, used when a page has no image of its own.
+    image: "/images/social-card.png"
+    # Organisation logo for search engines. Optional — remove the line if there is no logo.
+    logo: "/icon-512.png"
+
+  common:

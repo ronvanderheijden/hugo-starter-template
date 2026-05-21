@@ -1,0 +1,410 @@
+:root {
+    --color-bg: #ffffff;
+    --color-text: #1f2937;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-surface: #f9fafb;
+    --color-accent: #2563eb;
+    --color-accent-text: #ffffff;
+    --color-info: #2563eb;
+    --color-success: #16a34a;
+    --color-warning: #d97706;
+    --color-error: #dc2626;
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 4rem;
+    --radius: 0.75rem;
+    --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Dark counterparts of the palette. Applied when the visitor's device
+   prefers dark (unless they switched to light), or when they switched
+   to dark with the header toggle. Keep both blocks identical. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        --color-bg: #111827;
+        --color-text: #e5e7eb;
+        --color-muted: #9ca3af;
+        --color-border: #374151;
+        --color-surface: #1f2937;
+        --color-accent: #60a5fa;
+        --color-accent-text: #0b1220;
+        --color-info: #60a5fa;
+        --color-success: #4ade80;
+        --color-warning: #fbbf24;
+        --color-error: #f87171;
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+}
+
+:root[data-theme='dark'] {
+    --color-bg: #111827;
+    --color-text: #e5e7eb;
+    --color-muted: #9ca3af;
+    --color-border: #374151;
+    --color-surface: #1f2937;
+    --color-accent: #60a5fa;
+    --color-accent-text: #0b1220;
+    --color-info: #60a5fa;
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+    --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: light dark;
+    font-size: 100%;
+}
+
+html[data-theme='light'] {
+    color-scheme: light;
+}
+
+html[data-theme='dark'] {
+    color-scheme: dark;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.65;
+    margin: 0;
+}
+
+img,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+img {
+    height: auto;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+}
+
+a:hover {
+    text-decoration-thickness: 0.14em;
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 0.2rem;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.15;
+    margin: 0;
+}
+
+h1 {
+    font-size: clamp(2.25rem, 1.65rem + 3vw, 4.5rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+p,
+ul,
+ol {
+    margin: 0;
+}
+
+.container {
+    margin-inline: auto;
+    max-width: 70rem;
+    padding-inline: var(--space-lg);
+    width: 100%;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.cluster {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+}
+
+.grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+.skip-link {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    left: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    position: absolute;
+    top: var(--space-md);
+    transform: translateY(-150%);
+    z-index: 10;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.site-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-md);
+}
+
+.site-header__inner {
+    justify-content: space-between;
+}
+
+.site-title {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-toggle {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    cursor: pointer;
+    display: none;
+    font: inherit;
+    font-weight: 700;
+    padding: var(--space-xs) var(--space-md);
+}
+
+.nav-toggle[aria-expanded='true'] {
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list a {
+    color: var(--color-muted);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-list a:hover,
+.nav-list a[aria-current='page'] {
+    color: var(--color-text);
+}
+
+.site-main {
+    padding-block: var(--space-2xl);
+}
+
+.site-footer {
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    padding-block: var(--space-xl);
+}
+
+.content {
+    max-width: 58rem;
+}
+
+.content > :where(p, ul, ol) {
+    max-width: 42rem;
+}
+
+.page-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-lg);
+}
+
+.lead {
+    color: var(--color-muted);
+    font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.35rem);
+    max-width: 42rem;
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-lg);
+}
+
+.card h2 a {
+    color: var(--color-text);
+}
+
+.terms {
+    list-style: none;
+    padding: 0;
+}
+
+.terms a {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-muted);
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.2rem 0.65rem;
+    text-decoration: none;
+}
+
+.figure {
+    margin: 0;
+}
+
+.figure--medium {
+    max-width: 32rem;
+}
+
+.figure--small {
+    max-width: 20rem;
+}
+
+.figure img {
+    border-radius: var(--radius);
+}
+
+.figure figcaption {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    padding-top: var(--space-xs);
+}
+
+.pagination {
+    padding-top: var(--space-md);
+}
+
+.pagination__link {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    text-decoration: none;
+}
+
+.pagination__status {
+    color: var(--color-muted);
+    font-weight: 700;
+}
+
+.alert {
+    border: 1px solid var(--color-border);
+    border-left: 0.35rem solid var(--color-info);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+}
+
+.alert-success {
+    border-left-color: var(--color-success);
+}
+
+.alert-warning {
+    border-left-color: var(--color-warning);
+}
+
+.alert-error {
+    border-left-color: var(--color-error);
+}
+
+.alert-title {
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+
+.cta-button {
+    border: 1px solid var(--color-accent);
+    border-radius: 999px;
+    display: inline-block;
+    font-weight: 700;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+}
+
+.cta-primary,
+.cta-secondary {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.cta-outline {
+    background: transparent;
+    color: var(--color-accent);
+}
+
+@media (max-width: 42rem) {
+    /* Without JavaScript the menu stays a visible stacked list. */
+    .site-header__inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    /* With JavaScript the menu collapses behind the toggle button. */
+    html.js .site-header__inner {
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    html.js .nav-toggle {
+        display: inline-block;
+    }
+
+    html.js .site-nav {
+        display: none;
+        width: 100%;
+    }
+
+    html.js .site-nav.is-open {
+        display: block;
+    }
+
+    html.js .site-nav .nav-list {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        padding-block: var(--space-xs);
+    }
+
+    html.js .site-nav .nav-list a {
+        display: block;
+        padding-block: var(--space-xs);
+    }
+}

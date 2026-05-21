@@ -1,0 +1,28 @@
+{{/*
+  Alert/Notice Box Shortcode
+
+  Usage in content:
+    {{< alert type="info" >}}
+    This is an informational message.
+    {{< /alert >}}
+
+    {{< alert type="warning" title="Warning" >}}
+    Please be careful with this action.
+    {{< /alert >}}
+
+  Parameters:
+    - type: "info" (default), "success", "warning", "error"
+    - title: Optional title for the alert
+*/}}
+
+{{ $type := .Get "type" | default "info" }}
+{{ $title := .Get "title" }}
+
+<div class="alert alert-{{ $type }}" role="alert">
+    {{ with $title }}
+    <strong class="alert-title">{{ . }}</strong>
+    {{ end }}
+    <div class="alert-content">
+        {{ .Inner | markdownify }}
+    </div>
+</div>

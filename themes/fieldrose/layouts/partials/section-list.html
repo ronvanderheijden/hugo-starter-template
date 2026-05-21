@@ -1,0 +1,5 @@
+{{ with .Pages.ByWeight }}
+<section class="stack" aria-label="Pages in this section">
+    {{ partial "page-cards.html" . }}
+</section>
+{{ end }}
